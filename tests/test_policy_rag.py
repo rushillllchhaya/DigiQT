@@ -141,3 +141,37 @@ def test_no_expansion_generic():
     """Generic queries with no medical terms should not expand."""
     queries = expand_query_with_synonyms("policy benefits overview")
     assert len(queries) == 1
+
+# ==============================================================================
+# Real-World Everyday Indian Healthcare Scenarios
+# ==============================================================================
+
+def test_protect_benefit_consumables_retrieval():
+    """Verify Protect Benefit covering non-medical consumables (gloves, PPE) is retrieved."""
+    results = retrieve_policy_clauses("are hospital gloves PPE and syringes covered or deducted?", top_k=4)
+    assert len(results) > 0
+    # Must retrieve Protect Benefit (Clause B.1.2) or Annexure B reference
+    has_protect = any("Protect" in r["clause"] or "Annexure B" in r["section"] or "Annexure B" in r["text"] for r in results)
+    assert has_protect
+
+def test_restore_benefit_retrieval():
+    """Verify Restore Benefit is retrieved when sum insured is exhausted."""
+    results = retrieve_policy_clauses("if my sum insured is exhausted during second hospitalization will it restore?", top_k=4)
+    assert len(results) > 0
+    has_restore = any("Restore" in r["clause"] or "Restore" in r["text"] for r in results)
+    assert has_restore
+
+def test_air_ambulance_retrieval():
+    """Verify Air Ambulance cover is retrieved for emergency inter-city transfers."""
+    results = retrieve_policy_clauses("emergency air ambulance transfer to higher hospital in Mumbai", top_k=4)
+    assert len(results) > 0
+    has_air = any("Air Ambulance" in r["clause"] or "Air Ambulance" in r["text"] for r in results)
+    assert has_air
+
+def test_retrieval_caching():
+    """Verify in-memory retrieval cache works and returns cached result on repeat query."""
+    q = "What is the waiting period for pre-existing diseases?"
+    res1 = retrieve_policy_clauses(q, top_k=3)
+    res2 = retrieve_policy_clauses(q, top_k=3)
+    assert len(res1) == len(res2)
+    assert res1[0]["clause"] == res2[0]["clause"]

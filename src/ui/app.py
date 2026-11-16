@@ -227,6 +227,18 @@ with tab_chat:
         if st.button("👶 Maternity Delivery in Bangalore?", use_container_width=True):
             query_to_execute = "What does normal and C-section delivery cost in Bangalore, and does HDFC ERGO Optima Secure cover maternity?"
 
+    st.markdown("##### 🏥 Everyday Indian Healthcare Inquiries:")
+    row5_c1, row5_c2, row5_c3 = st.columns(3)
+    with row5_c1:
+        if st.button("🧤 Gloves, Syringes & Consumables Paid?", use_container_width=True):
+            query_to_execute = "Will hospital gloves, PPE kits, cotton, and syringes be deducted from my bill or does Optima Secure pay them?"
+    with row5_c2:
+        if st.button("🚁 Air Ambulance Inter-City Transfer?", use_container_width=True):
+            query_to_execute = "If I need emergency air ambulance transfer to a higher hospital in Mumbai or Delhi, is it covered and what is the limit?"
+    with row5_c3:
+        if st.button("🔄 Sum Insured Exhausted: 100% Reload?", use_container_width=True):
+            query_to_execute = "If my sum insured is exhausted during a major hospitalization, how does the Restore Benefit refill it for subsequent claims?"
+
     st.markdown("---")
     if st.button("⭐ **Execute Practical Task Assignment Scenario: Kidney Stone Surgery Treatment Options & Costs in Ahmedabad**", type="primary", use_container_width=True):
         query_to_execute = "If I need kidney stone surgery, how much will it cost, what treatment options are available in the market, and how much does each option typically cost? Tell me for Ahmedabad?"

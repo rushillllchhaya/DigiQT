@@ -28,6 +28,17 @@ MEDICAL_SYNONYM_MAP: Dict[str, List[str]] = {
     "transplant": ["organ transplant", "donor", "recipient", "graft"],
     "stroke": ["cerebrovascular", "brain hemorrhage", "paralysis", "thrombosis"],
     "appendix": ["appendicitis", "appendectomy", "appendicular"],
+    "dengue": ["viral fever", "platelet transfusion", "inpatient infection", "vector borne"],
+    "malaria": ["antimalarial", "parasitic infection", "inpatient hospitalization"],
+    "typhoid": ["enteric fever", "inpatient", "antibiotic therapy"],
+    "pneumonia": ["respiratory infection", "pulmonary", "inpatient hospitalization"],
+    "consumables": ["non-medical items", "gloves", "syringes", "cotton", "annexure b", "protect benefit"],
+    "ambulance": ["road ambulance", "air ambulance", "emergency transport", "medical evacuation"],
+    "piles": ["hemorrhoids", "fissure", "fistula", "anorectal"],
+    "robotic": ["modern treatment", "robotic surgery", "minimally invasive"],
+    "icu": ["intensive care unit", "critical care", "ventilator", "intensivist"],
+    "pre hospitalization": ["60 days", "diagnostic test prior", "consultation prior"],
+    "post hospitalization": ["180 days", "discharge medicines", "follow-up"],
 }
 
 # ==============================================================================
@@ -126,6 +137,34 @@ CROSS_SECTIONAL_TRIGGERS = [
     # 10. Organ Transplant / Donor coverage
     (["transplant", "organ", "donor", "recipient"],
      "organ transplant donor expenses recipient coverage Section B"),
+
+    # 11. Pan-India Treatment & Zero Zone Co-pay (Treatment in other cities)
+    (["another city", "outside city", "other state", "zone", "co-pay", "copay", "all over india", "across india", "pan india", "tier 1", "mumbai hospital", "delhi hospital"],
+     "Hospitalization Expenses within India at actuals network hospitals no zone co-payment Section B.1.1"),
+
+    # 12. Non-Medical Consumables (Gloves, PPE, Syringes) - Protect Benefit
+    (["gloves", "ppe", "syringes", "cotton", "mask", "non-medical", "consumables", "sanitizer", "protect benefit"],
+     "Protect Benefit non-medical expenses Annexure B covered Section B.1.2"),
+
+    # 13. Automatic Sum Insured Restoration - Restore Benefit
+    (["exhausted", "used up", "restore", "restoration", "second hospitalization", "sum insured over", "refill", "reinstatement"],
+     "Restore Benefit automatic 100% restoration of Sum Insured Section B.1.4"),
+
+    # 14. Air Ambulance & Emergency Inter-City Transfer
+    (["air ambulance", "air transfer", "helicopter", "flight emergency", "transfer to higher center"],
+     "Air Ambulance cover up to Rs 5 Lakhs per hospitalization Clause B.1.1.2"),
+
+    # 15. Modern & Advanced Treatment Methods (Robotic, Stem Cell, Laser)
+    (["robotic", "stem cell", "immunotherapy", "oral chemotherapy", "modern treatment", "green light laser", "balloon sinuplasty"],
+     "Modern Treatment Methods Clause B.1.1.1.v IRDAI robotic surgery stem cell"),
+
+    # 16. Pre- and Post-Hospitalization (60 Days Pre / 180 Days Post)
+    (["before admission", "after discharge", "pre-hospitalization", "post-hospitalization", "60 days", "180 days", "follow up tests", "discharge medicines"],
+     "Pre-Hospitalization Medical Expenses 60 days Post-Hospitalization 180 days Clause B.1.1.1.ii Clause B.1.1.1.iii"),
+
+    # 17. 2X Secure Benefit & Plus Benefit (Cumulative Bonus)
+    (["double cover", "2x cover", "secure benefit", "plus benefit", "cumulative bonus", "no claim bonus", "ncb"],
+     "Secure Benefit 100% additional base sum insured Plus Benefit 50% increase Section B.1.3 Section B.1.5"),
 ]
 
 
@@ -153,6 +192,9 @@ def expand_query_with_synonyms(query: str) -> List[str]:
     return [query, expanded_query]
 
 
+# In-memory query result cache for microsecond retrieval on common/repeat questions
+_RETRIEVAL_CACHE: Dict[tuple, List[Dict[str, Any]]] = {}
+
 def retrieve_policy_clauses(query: str, top_k: int = 6) -> List[Dict[str, Any]]:
     """
     Retrieves policy clauses matching the query using hybrid (Chroma + BM25) retrieval.
@@ -161,8 +203,13 @@ def retrieve_policy_clauses(query: str, top_k: int = 6) -> List[Dict[str, Any]]:
     - simple_factual: Direct hybrid search only (fast path)
     - coverage_admissibility: Full cross-sectional expansion with override triggers
 
+    Includes in-memory result caching for microsecond response times on repeat questions.
     Also applies medical synonym expansion for better recall on clinical terms.
     """
+    cache_key = (query.strip().lower(), top_k)
+    if cache_key in _RETRIEVAL_CACHE:
+        return _RETRIEVAL_CACHE[cache_key]
+
     kb = get_knowledge_base()
     lower_q = query.lower()
     complexity = classify_query_complexity(query)
@@ -179,7 +226,9 @@ def retrieve_policy_clauses(query: str, top_k: int = 6) -> List[Dict[str, Any]]:
 
     # FAST PATH: Simple factual queries skip cross-sectional expansion
     if complexity == "simple_factual":
-        return _deduplicate(primary_results)[:top_k]
+        res = _deduplicate(primary_results)[:top_k]
+        _RETRIEVAL_CACHE[cache_key] = res
+        return res
 
     # 2. FULL PATH: Check for domain-specific conflict/exception triggers
     secondary_results = []
@@ -196,7 +245,9 @@ def retrieve_policy_clauses(query: str, top_k: int = 6) -> List[Dict[str, Any]]:
 
     # Merge and deduplicate
     all_results = primary_results + secondary_results
-    return _deduplicate(all_results)[:top_k]
+    res = _deduplicate(all_results)[:top_k]
+    _RETRIEVAL_CACHE[cache_key] = res
+    return res
 
 
 def _deduplicate(results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:

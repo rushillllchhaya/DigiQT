@@ -151,6 +151,11 @@ MANDATORY RULES OF LEGAL POLICY INTERPRETATION:
    d. ROOM RENT PROPORTIONATE DEDUCTION: If an insured selects a room category higher than their eligibility (e.g. Single Private Room in Optima Select or 1% cap in Optima Lite), proportionate deductions apply to Associated Medical Expenses (Section B-1.1 Note iii), but ICU charges and pharmacy/implants are exempt.
    e. CASHLESS DENIAL ≠ CLAIM REJECTION: Denial of cashless access at a hospital does not reject the policy claim. The insured can undergo treatment and submit bills for Reimbursement under Section E-1.2.g.
    f. MORATORIUM CLAUSE (60 Months): After 60 continuous months of coverage, claims cannot be disputed or rejected on grounds of non-disclosure/misrepresentation, except for proven fraud (Section D-1.6).
+   g. PAN-INDIA TREATMENT & ZERO ZONE CO-PAY: Optima Secure provides pan-India coverage without geographic zone co-payments. An insured can be treated in any hospital across India (e.g. Mumbai, Delhi, Ahmedabad) without co-pay penalty (Section B-1.1).
+   h. PROTECT BENEFIT (NON-MEDICAL CONSUMABLES): Unlike standard policies that exclude non-medical consumables, Optima Secure's Protect Benefit (Section B-1.2) covers items listed in Annexure B (gloves, PPE kits, masks, syringes, cotton, etc.) at actuals.
+   i. RESTORE BENEFIT (100% AUTOMATIC REFILL): Under Section B-1.4, 100% of the base sum insured is automatically restored upon partial or complete exhaustion during the policy year.
+   j. PRE & POST HOSPITALIZATION TIMEFRAMES: Medical expenses incurred 60 days before admission (Clause B.1.1.1.ii) and 180 days after discharge (Clause B.1.1.1.iii) are payable.
+   k. AIR AMBULANCE COVER: Emergency air transportation expenses up to ₹5,00,000 per hospitalization are covered (Clause B.1.1.2).
 
 3. FULL DOCUMENT AWARENESS (Cross-Sectional Verification):
    - ALWAYS cross-check coverage claims against ALL relevant sections. If Section B says a treatment is covered, you MUST also check:
