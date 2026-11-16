@@ -1,8 +1,12 @@
 import os
 import re
 import json
+import warnings
 from typing import List, Dict, Any, Optional
 from src.config import TAVILY_API_KEY
+
+# Suppress cosmetic upstream deprecation notice from duckduckgo_search
+warnings.filterwarnings("ignore", message=".*has been renamed to.*", category=RuntimeWarning)
 
 # ==============================================================================
 # Trusted Indian Healthcare Domains (Expanded)
@@ -376,9 +380,11 @@ def search_web(query: str, max_results: int = 5, target_city: str = "Ahmedabad")
 
     # Priority 2: DuckDuckGo Search (with domain filtering)
     try:
-        from duckduckgo_search import DDGS
-        with DDGS() as ddgs:
-            ddg_results = list(ddgs.text(f"{query} cost price in INR", max_results=max_results * 2))
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=RuntimeWarning)
+            from duckduckgo_search import DDGS
+            with DDGS() as ddgs:
+                ddg_results = list(ddgs.text(f"{query} cost price in INR", max_results=max_results * 2))
             for item in ddg_results:
                 url = item.get("href", "")
                 # Skip blacklisted domains
