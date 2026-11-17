@@ -22,7 +22,7 @@ from src.graph.nodes import stream_policy_qa, stream_agentic_synthesizer
 
 # Page Configuration
 st.set_page_config(
-    page_title="HDFC ERGO Insurance AI & Agentic RAG",
+    page_title="Enterprise Health Insurance AI & Agentic RAG",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -227,7 +227,7 @@ with tab_chat:
             query_to_execute = "What is the cost of total knee replacement surgery in Delhi, what options are available, and what is the waiting period?"
     with row4_c3:
         if st.button("👶 Maternity Delivery in Bangalore?", use_container_width=True):
-            query_to_execute = "What does normal and C-section delivery cost in Bangalore, and does HDFC ERGO Optima Secure cover maternity?"
+            query_to_execute = "What does normal and C-section delivery cost in Bangalore, and does health insurance cover maternity?"
 
     st.markdown("##### 🏥 Everyday Indian Healthcare Inquiries:")
     row5_c1, row5_c2, row5_c3 = st.columns(3)
@@ -430,14 +430,14 @@ with tab_embeddings:
         "Exact Code / Number Match": ["⭐⭐", "⭐⭐⭐⭐⭐", "⭐⭐⭐⭐⭐", "⭐⭐⭐⭐⭐", "⭐⭐⭐⭐"],
         "Query Latency": ["Fast (< 15ms)", "Instant (< 2ms)", "Fast (< 18ms)", "Moderate (50-100ms)", "Moderate (30-60ms)"],
         "Storage & Memory Footprint": ["Low (Compact SQLite)", "Minimal (< 1MB)", "Low (~2MB total)", "High (Vector per token)", "Medium (Sparse posting lists)"],
-        "Suitability for HDFC Policy": ["Good", "Good for Codes", "⭐ Best in Class", "Excellent (Higher compute)", "Very Good"]
+        "Suitability for Health Insurance Policies": ["Good", "Good for Codes", "⭐ Best in Class", "Excellent (Higher compute)", "Very Good"]
     })
 
 # ------------------------------------------------------------------------------
 # TAB 3: Policy Explorer
 # ------------------------------------------------------------------------------
 with tab_explorer:
-    st.markdown("### 📑 HDFC ERGO Optima Secure Policy Explorer")
+    st.markdown("### 📑 Health Insurance Policy Document Explorer")
     st.markdown("Browse all 205 indexed chunks, page boundaries, sections, and clauses in the knowledge base.")
 
     kb = get_knowledge_base()
@@ -512,7 +512,7 @@ with tab_benchmarks:
         },
         {
             "Question": "Agentic Scenario: Kidney Stone surgery treatment options and costs in Ahmedabad?",
-            "Ground Truth Answer": "Dual-mode synthesis: Market options (RIRS, PCNL, URSL, ESWL) and Ahmedabad price ranges (₹30,000 to ₹1,45,000) combined with HDFC ERGO 24-month waiting period caveat (Code Excl02), Day Care coverage, and claim procedure.",
+            "Ground Truth Answer": "Dual-mode synthesis: Market options (RIRS, PCNL, URSL, ESWL) and Ahmedabad price ranges (₹30,000 to ₹1,45,000) combined with statutory 24-month waiting period caveat (Code Excl02), Day Care coverage, and claim procedure.",
             "Page": "Page 28–29 & Page 11",
             "Section": "SECTION C (Clause C.1.b) + SECTION B (Clause B.1.1.1.iv)",
             "Clause": "Hybrid Market Research + Policy Verification"

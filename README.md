@@ -1,4 +1,4 @@
-# HDFC ERGO Policy Assistant & Agentic RAG System
+# Enterprise Health Insurance Policy Assistant & Agentic RAG System
 > **Digiqt Technolabs Practical Task Submission — AI Engineer**
 
 An enterprise-grade, dual-mode health insurance AI system combining **Strict Policy-Grounded RAG** (with exact Page, Section, and Clause citations) and **Multi-Step Agentic RAG** (using LangGraph for market healthcare research & local procedure cost analysis).
@@ -8,7 +8,7 @@ An enterprise-grade, dual-mode health insurance AI system combining **Strict Pol
 ## 🌟 Key Capabilities
 
 ### 1. Standard Policy RAG (Deterministic Policy QA)
-- **Zero Hallucinations**: Grounded strictly in the official 53-page **HDFC ERGO Optima Secure Policy Wording** (`optima-secure-revision-pw.pdf`).
+- **Zero Hallucinations**: Grounded strictly in the official 53-page **Comprehensive Health Insurance Policy Wording** (`optima-secure-revision-pw.pdf`).
 - **Precision Citations**: Every response cites the exact **Page Number**, **Section**, and **Clause Name/Code** (e.g. `Page: 28, Section: SECTION C. WAITING PERIOD AND EXCLUSIONS, Clause: Specified Disease/Procedure waiting period: Code – Excl02`).
 - **Hybrid Retrieval**: Combines dense semantic search (ChromaDB) and sparse keyword matching (BM25) via **Reciprocal Rank Fusion (RRF)** to eliminate missed clause references.
 - **Strict Guardrails**: Refuses assumptions, handles exceptions and conditions, and explicitly prompts when additional customer information is required.
@@ -68,7 +68,7 @@ flowchart TD
 | **4** | *I purchased the policy 5 months ago. Will my kidney stone surgery be covered?* | **Not Covered**. Kidney stone (calculus of urogenital system) has a mandatory **24-month** waiting period. | **Page: 28–29**, Section C.1.b (Code – Excl02) |
 | **5** | *I already had gallbladder stones when I purchased the policy 130 days ago. Now I need surgery. Will this treatment be covered?* | **Not Covered**. Pre-existing conditions require **36 months** (or the longer period under C.1.b.iii). 130 days is far below the requirement. | **Page: 28**, Section C.1.a (Code – Excl01) & **Page 29**, Section C.1.b.iii |
 | **6** | *What documents are required for a claim?* | Lists all 20 required documents: completed claim form, photo ID, discharge card, final hospital bill, diagnostic reports, implant invoices, etc. | **Page: 43–44**, Section E.1.7 (items a–t) |
-| **7** | **Agentic Scenario**: *Kidney stone surgery options & costs in Ahmedabad?* | Breaks down **RIRS**, **PCNL**, **URSL**, **ESWL** with Ahmedabad price ranges (₹30k–₹1.45L) + HDFC ERGO 24-month waiting period analysis and day-care terms. | **Page 28–29**, Section C.1.b (Excl02) + **Page 11**, Section B.1.1.1.iv + Web Sources |
+| **7** | **Agentic Scenario**: *Kidney stone surgery options & costs in Ahmedabad?* | Breaks down **RIRS**, **PCNL**, **URSL**, **ESWL** with Ahmedabad price ranges (₹30k–₹1.45L) + statutory 24-month waiting period analysis and day-care terms. | **Page 28–29**, Section C.1.b (Excl02) + **Page 11**, Section B.1.1.1.iv + Web Sources |
 | **8** | *Accident 15 days after buying policy: Is surgery covered despite the 30-day waiting period?* | **Covered Immediately**. Section C.1.c.i & Section C.1.b.i explicitly state waiting periods do NOT apply to accidental injuries. | **Page: 28 & 30**, Clause C.1.b.i & Clause C.1.c.i |
 | **9** | *Discharged in 6 hours for cataract/day-care: Will it be denied due to the 24-hour hospitalization rule?* | **Covered as Day Care**. Section B-1.1 Note i explicitly waives the 24-consecutive-hour minimum stay for Day Care procedures. | **Page: 11**, Clause B.1.1 Note i & Clause B.1.1.1.iv |
 | **10** | *Cashless request denied by insurer: Is the claim permanently rejected?* | **No**. Denial of cashless access is not a claim repudiation; the insured may file for Reimbursement under Section E.1.2.g. | **Page: 42**, Clause E.1.2.g |

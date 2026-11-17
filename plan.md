@@ -8,7 +8,7 @@
 This project implements an intelligent, multi-step health insurance AI assistant for **Digiqt Technolabs**. The system satisfies two distinct modes of operation:
 
 1. **Standard Policy RAG (Deterministic & Grounded)**:
-   - Evaluates user questions against the official **HDFC ERGO Optima Secure Policy Wording** (53-page document).
+   - Evaluates user questions against the official **Comprehensive Health Insurance Policy Wording** (53-page document).
    - Strict adherence to ground truth with zero assumptions.
    - Enforces standardized citations specifying **Page Number**, **Section**, and **Clause Name/Code**.
    - Handles policy conditions, exceptions, waiting periods, and notices when additional user information is needed.
@@ -76,7 +76,7 @@ flowchart TD
 
 To satisfy the strict citation requirement (`Page`, `Section`, `Clause`), chunks must retain hierarchical metadata:
 
-#### Document Section Map (HDFC ERGO Optima Secure)
+#### Document Section Map (Comprehensive Health Insurance Policy)
 - **Pages 2–10**: Section A – Standard & Specific Definitions (e.g., Def 10: Day Care Centre, Def 11: Day Care Treatment, Def 35: Pre-Existing Disease, Def 41: Room Rent).
 - **Pages 11–14**: Section B.1 – Base Coverage (B.1.1 Hospitalization Expenses, Room Rent at Actuals, All Day Care treatments).
 - **Pages 14–27**: Section B.2 – Optional Covers (B.2.12 PED waiting period modification, B.2.13 Room Rent modification).
@@ -125,7 +125,7 @@ Step 3: Document Reflection & Relevance Grading
 
 Step 4: Grounded Dual Synthesis
    ├── Section 1: Market Medical Options & Local Ahmedabad Cost Breakdown (tables + citations of medical aggregators).
-   ├── Section 2: HDFC ERGO Policy Admissibility & Coverage Analysis (24-month waiting period caveat, Day Care coverage, exact page/clause citations).
+   ├── Section 2: Health Insurance Policy Admissibility & Coverage Analysis (24-month waiting period caveat, Day Care coverage, exact page/clause citations).
    └── Section 3: Summary Advisory (next steps for pre-authorization and claim submission).
 ```
 

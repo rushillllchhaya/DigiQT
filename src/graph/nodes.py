@@ -45,7 +45,7 @@ def ensure_citations(response: str, chunks: List[Dict[str, Any]]) -> str:
 ROUTER_PROMPT = """You are an intelligent Intent Router for an Enterprise Health Insurance Assistant.
 Analyze the user's inquiry and categorize it strictly into one of two modes:
 
-1. "policy_qa": The question asks strictly about internal insurance policy rules, definitions, terms, waiting periods, room rent, exclusions, or claim procedures grounded in the HDFC ERGO Optima Secure document.
+1. "policy_qa": The question asks strictly about internal insurance policy rules, definitions, terms, waiting periods, room rent, exclusions, or claim procedures grounded in the health insurance policy document.
 2. "agentic_hybrid": The question requires external real-world market intelligence, such as hospital charges, market prices, local surgery costs, treatment options in a city (e.g., Ahmedabad), or cost comparisons combined with policy terms.
 
 Return ONLY a JSON object:
@@ -136,7 +136,7 @@ def policy_retriever_node(state: AgentState) -> Dict[str, Any]:
 # ==============================================================================
 # Node 3: Policy QA Synthesizer (Standard Mode)
 # ==============================================================================
-POLICY_QA_SYSTEM_PROMPT = """You are an authoritative Health Insurance Advisory AI for HDFC ERGO Optima Secure.
+POLICY_QA_SYSTEM_PROMPT = """You are an authoritative Health Insurance Advisory AI.
 Answer the user's question strictly grounded on the policy document chunks provided below.
 
 MANDATORY RULES OF LEGAL POLICY INTERPRETATION:
@@ -151,8 +151,8 @@ MANDATORY RULES OF LEGAL POLICY INTERPRETATION:
    d. ROOM RENT PROPORTIONATE DEDUCTION: If an insured selects a room category higher than their eligibility (e.g. Single Private Room in Optima Select or 1% cap in Optima Lite), proportionate deductions apply to Associated Medical Expenses (Section B-1.1 Note iii), but ICU charges and pharmacy/implants are exempt.
    e. CASHLESS DENIAL ≠ CLAIM REJECTION: Denial of cashless access at a hospital does not reject the policy claim. The insured can undergo treatment and submit bills for Reimbursement under Section E-1.2.g.
    f. MORATORIUM CLAUSE (60 Months): After 60 continuous months of coverage, claims cannot be disputed or rejected on grounds of non-disclosure/misrepresentation, except for proven fraud (Section D-1.6).
-   g. PAN-INDIA TREATMENT & ZERO ZONE CO-PAY: Optima Secure provides pan-India coverage without geographic zone co-payments. An insured can be treated in any hospital across India (e.g. Mumbai, Delhi, Ahmedabad) without co-pay penalty (Section B-1.1).
-   h. PROTECT BENEFIT (NON-MEDICAL CONSUMABLES): Unlike standard policies that exclude non-medical consumables, Optima Secure's Protect Benefit (Section B-1.2) covers items listed in Annexure B (gloves, PPE kits, masks, syringes, cotton, etc.) at actuals.
+   g. PAN-INDIA TREATMENT & ZERO ZONE CO-PAY: The policy provides pan-India coverage without geographic zone co-payments. An insured can be treated in any network hospital across India (e.g. Mumbai, Delhi, Ahmedabad) without financial co-pay penalty (Section B-1.1).
+   h. PROTECT BENEFIT (NON-MEDICAL CONSUMABLES): Under the policy's Protect Benefit (Section B-1.2), non-medical items listed in Annexure B (gloves, PPE kits, masks, syringes, cotton, etc.) are covered at actuals.
    i. RESTORE BENEFIT (100% AUTOMATIC REFILL): Under Section B-1.4, 100% of the base sum insured is automatically restored upon partial or complete exhaustion during the policy year.
    j. PRE & POST HOSPITALIZATION TIMEFRAMES: Medical expenses incurred 60 days before admission (Clause B.1.1.1.ii) and 180 days after discharge (Clause B.1.1.1.iii) are payable.
    k. AIR AMBULANCE COVER: Emergency air transportation expenses up to ₹5,00,000 per hospitalization are covered (Clause B.1.1.2).
@@ -422,12 +422,12 @@ def query_rewriter_node(state: AgentState) -> Dict[str, Any]:
 # ==============================================================================
 # Node 8: Agentic Synthesizer — FULLY GENERALIZED (No hardcoded procedures)
 # ==============================================================================
-AGENTIC_SYNTHESIZER_PROMPT = """You are a Chief Health Insurance & Medical Advisory AI for HDFC ERGO.
+AGENTIC_SYNTHESIZER_PROMPT = """You are a Chief Health Insurance & Medical Advisory AI.
 The customer has presented a composite real-world inquiry requiring both local market cost intelligence and policy underwriting coverage verification:
 "{user_query}"
 
 You are provided with:
-1. Official HDFC ERGO Optima Secure Policy wording clauses.
+1. Official health insurance policy wording clauses.
 2. Verified local healthcare market intelligence on medical options and hospital costs in {city}.
 
 Synthesize a comprehensive, authoritative, and well-organized response strictly structured into the following sections:
@@ -440,7 +440,7 @@ Synthesize a comprehensive, authoritative, and well-organized response strictly 
 - Cite the external healthcare sources with hyperlinks (e.g. HexaHealth, Practo, Pristyn Care, Apollo, etc.).
 - If data for {city} specifically is limited, note that and provide the best available Indian pricing data.
 
-### Part 2: HDFC ERGO Optima Secure Policy Admissibility & Coverage Analysis
+### Part 2: Health Insurance Policy Admissibility & Coverage Analysis
 - Analyze whether and how the policy covers this specific condition:
   * **Waiting Period Analysis**: State clearly which waiting period applies to this condition:
     - Check if it falls under the 24-month Specified Disease/Procedure waiting period (Code – Excl02) and list the exact condition from the policy if applicable.
@@ -448,7 +448,7 @@ Synthesize a comprehensive, authoritative, and well-organized response strictly 
     - Apply the "longer of the two" rule (C.1.b.iii) if both PED and specific illness waiting periods apply.
     - State the 30-day initial waiting period (Code – Excl03) exception for accidents.
   * **Day Care vs. Inpatient**: If the procedure can be done as Day Care, highlight that the 24-hour minimum hospitalization rule does NOT apply (Section B.1.1.1.iv).
-  * **Room Rent**: Explain room rent rules (At Actuals for Optima Secure; Single Private Room for Optima Select; 1% cap for Optima Lite).
+  * **Room Rent**: Explain room rent rules (At Actuals for Comprehensive variant; Single Private Room for Standard variant; 1% cap for Basic variant).
   * **Sub-limits & Exclusions**: Note any applicable sub-limits or exclusions from Section C or Annexure C.
 - **MANDATORY POLICY CITATIONS**:
   Every response must cite the policy document in this exact format:

@@ -120,13 +120,11 @@ def clean_text(text: str) -> str:
         line_str = line.strip()
         if not line_str:
             continue
-        if "HDFC ERGO General Insurance Company Limited" in line_str:
+        if any(term in line_str for term in ["General Insurance Company Limited", "Insurance Company Limited"]):
             continue
-        if "HDFHLIP" in line_str:
+        if "HDFHLIP" in line_str or "my: Optima Secure" in line_str:
             continue
         if line_str.isdigit() and len(line_str) <= 3:
-            continue
-        if "my: Optima Secure" in line_str:
             continue
         cleaned_lines.append(line_str)
     return "\n".join(cleaned_lines)

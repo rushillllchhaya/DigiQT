@@ -15,7 +15,7 @@ def tokenize(text: str) -> List[str]:
 
 class PolicyKnowledgeBase:
     """
-    Hybrid Retrieval Knowledge Base for HDFC ERGO Optima Secure Policy.
+    Hybrid Retrieval Knowledge Base for Comprehensive Health Insurance Policy.
     Combines:
       1. ChromaDB (Dense Vector Search with page/section/clause metadata)
       2. BM25 (Sparse Keyword Search for medical terms, waiting period numbers, clause codes)
@@ -26,7 +26,7 @@ class PolicyKnowledgeBase:
     def __init__(self, pdf_path: str = POLICY_PDF_PATH, persist_dir: str = CHROMA_PERSIST_DIRECTORY, force_reindex: bool = False):
         self.pdf_path = pdf_path
         self.persist_dir = persist_dir
-        self.collection_name = "hdfc_optima_secure"
+        self.collection_name = "health_insurance_policy"
         
         Path(self.persist_dir).mkdir(parents=True, exist_ok=True)
         self.chroma_client = chromadb.PersistentClient(path=self.persist_dir)
