@@ -115,10 +115,12 @@ with st.sidebar:
         os.environ["NVIDIA_API_KEY"] = api_key
 
     models = [
-        "meta/llama-3.3-70b-instruct",
-        "mistralai/mistral-large-2-instruct",
-        "deepseek-ai/deepseek-r1",
-        "nvidia/llama-3.1-nemotron-70b-instruct"
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "mistralai/mistral-large-4-1t-a52b",
+        "nvidia/nemotron-3.5-lightning-30b-a3b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b",
+        "minimaxai/minimax-m3.1-flash"
     ]
     chosen_model = st.selectbox("Selected High-Param Model", models, index=0)
     os.environ["NVIDIA_MODEL_NAME"] = chosen_model

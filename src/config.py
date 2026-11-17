@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # NVIDIA NIM / LLM Configuration
 NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY", "")
 NVIDIA_BASE_URL = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1")
-NVIDIA_MODEL_NAME = os.getenv("NVIDIA_MODEL_NAME", "meta/llama-3.3-70b-instruct")
+NVIDIA_MODEL_NAME = os.getenv("NVIDIA_MODEL_NAME", "nvidia/nemotron-3-ultra-550b-a55b")
 
 # Embedding Configuration
 # Options: "local" (fast ONNX CPU), "nvidia" (NVIDIA NeMo Retriever), "openai"
